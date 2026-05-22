@@ -17,9 +17,9 @@ on:
         default: 'debian-server,debian-gnome,debian-phosh,ubuntu-server,ubuntu-gnome,ubuntu-phosh'
         type: string
       kernel_versions:
-        description: '内核版本 (用逗号分隔多个值，如: 6.18,7.0)'
+        description: '内核版本 (默认7.0可选6.18)'
         required: false
-        default: '6.18,7.0'
+        default: '7.0'
         type: string
       bootstrap_tools:
         description: '构建工具 (用逗号分隔多个值，如: mmdebstrap)'
@@ -29,7 +29,7 @@ on:
       desktop_environments:
         description: '桌面环境 (仅适用于Phosh版本)'
         required: false
-        default: 'phosh-full'
+        default: 'phosh-core'
         type: string
       debian_versions:
         description: 'Debian 版本 (用逗号分隔多个值，如: trixie,bookworm)'
