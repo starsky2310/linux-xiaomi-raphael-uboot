@@ -3,8 +3,10 @@ set -e
 
 echo "[$(date +'%Y-%m-%d %H:%M:%S')] [13] 🔋 配置电源管理和熄屏"
 
-echo "[$(date +'%Y-%m-%d %H:%M:%S')] [13]   └─ 禁用睡眠/挂起目标"
-chroot rootdir systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+if [[ "$SYSTEM_TYPE" != *"server"* ]]; then
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] [13]   └─ 禁用睡眠/挂起目标"
+    chroot rootdir systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+fi
 
 # 仅在 Ubuntu 构建时配置 NetworkManager
 if [[ "$SYSTEM_TYPE" == *"ubuntu-"* ]]; then 
