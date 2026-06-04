@@ -14,7 +14,6 @@ dhcp-authoritative
 dhcp-range=172.16.42.2,172.16.42.254,255.255.255.0,1h
 dhcp-option=3,172.16.42.1
 EOF
-echo "net.ipv4.ip_forward=1" | tee rootdir/etc/sysctl.d/99-usb-ncm.conf
 chroot rootdir systemctl enable dnsmasq
 cat > rootdir/usr/local/sbin/setup-usb-ncm.sh << 'EOF'
 #!/bin/sh
@@ -39,15 +38,6 @@ UDC=$(ls /sys/class/udc | head -n 1)
 echo $UDC > $G/UDC
 ip link set usb0 up
 ip addr add 172.16.42.1/24 dev usb0 || true
-OUT=$(ip route get 1.1.1.1 | awk '{print $5; exit}')
-sysctl -w net.ipv4.ip_forward=1
-nft add table ip nat
-nft add chain ip nat POSTROUTING '{ type nat hook postrouting priority 100; policy accept; }'
-nft add table ip filter
-nft add chain ip filter FORWARD '{ type filter hook forward priority 0; policy accept; }'
-nft add rule ip nat POSTROUTING oifname $OUT masquerade
-nft add rule ip filter FORWARD iifname $OUT oifname usb0 ct state related,established accept
-nft add rule ip filter FORWARD iifname usb0 oifname $OUT accept
 systemctl restart dnsmasq || true
 EOF
 chmod +x rootdir/usr/local/sbin/setup-usb-ncm.sh
