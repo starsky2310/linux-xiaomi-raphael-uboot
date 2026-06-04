@@ -41,9 +41,13 @@ ip link set usb0 up
 ip addr add 172.16.42.1/24 dev usb0 || true
 OUT=$(ip route get 1.1.1.1 | awk '{print $5; exit}')
 sysctl -w net.ipv4.ip_forward=1
-iptables -t nat -C POSTROUTING -o $OUT -j MASQUERADE || iptables -t nat -A POSTROUTING -o $OUT -j MASQUERADE
-iptables -C FORWARD -i $OUT -o usb0 -m state --state RELATED,ESTABLISHED -j ACCEPT || iptables -A FORWARD -i $OUT -o usb0 -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -C FORWARD -i usb0 -o $OUT -j ACCEPT || iptables -A FORWARD -i usb0 -o $OUT -j ACCEPT
+nft add table ip nat
+nft add chain ip nat POSTROUTING '{ type nat hook postrouting priority 100; policy accept; }'
+nft add table ip filter
+nft add chain ip filter FORWARD '{ type filter hook forward priority 0; policy accept; }'
+nft add rule ip nat POSTROUTING oifname $OUT masquerade
+nft add rule ip filter FORWARD iifname $OUT oifname usb0 ct state related,established accept
+nft add rule ip filter FORWARD iifname usb0 oifname $OUT accept
 systemctl restart dnsmasq || true
 EOF
 chmod +x rootdir/usr/local/sbin/setup-usb-ncm.sh
