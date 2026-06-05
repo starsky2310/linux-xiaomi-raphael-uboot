@@ -333,29 +333,10 @@ jobs:
         id: release-info
         run: |
           TIMESTAMP=$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')
-          RUN_DATE=$(date +'%Y%m%d')
-          BUILD_MODE="${{ needs.generate-matrix.outputs.build_mode }}"
           
-          if [ "$BUILD_MODE" = "single" ]; then
-            # 单个构建：使用详细的标签
-            SYS_TYPE="${{ needs.generate-matrix.outputs.single_system_type }}"
-            KERN_VER="${{ needs.generate-matrix.outputs.single_kernel_version }}"
-            OS_VER="${{ needs.generate-matrix.outputs.single_os_version }}"
-            
-            # 确定系统名称
-            if [[ "$SYS_TYPE" == debian-* ]]; then
-              OS_NAME="Debian"
-            else
-              OS_NAME="Ubuntu"
-            fi
-            
-            TAG="${SYS_TYPE}-v${KERN_VER}-${OS_VER}-${RUN_DATE}"
-            RELEASE_TITLE="${OS_NAME} ${SYS_TYPE#*-} 镜像 v${KERN_VER} (${OS_VER})"
-          else
-            # 批量构建：使用统一的标签
-            TAG="build-${RUN_DATE}-${GITHUB_RUN_ID}"
-            RELEASE_TITLE="小米 Raphael 镜像构建"
-          fi
+          # 统一使用 latest 标签
+          TAG="latest"
+          RELEASE_TITLE="小米 Raphael 镜像构建"
           
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
           echo "name=${RELEASE_TITLE}" >> $GITHUB_OUTPUT
