@@ -22,7 +22,7 @@
 
 - 外设：蓝牙（文件传输/音频输出）、USB SSH/OTG 功能、触摸屏、手电筒（支持亮度调节）
 
-- 基础硬件：屏幕显示、电池检测、实时时钟、GPU 渲染、FDE 加密
+- 基础硬件：屏幕显示、电池检测、实时时钟、GPU 渲染、FDE 加密、音频（耳机/扬声器输出）
 
 ## 📊 版本支持矩阵
 
@@ -191,15 +191,27 @@ fastboot reboot
 
 ## 🙏 致谢
 
-本项目基于众多开源项目与开发者成果开发，特此致谢：
+本项目基于众多开源项目与开发者成果开发，排名不分先后，特此致谢：
 
 - Linux 内核官方开发团队、Debian / Ubuntu 开源社区、Phosh 桌面开发团队
 
-- [@璀璨梦星](https://github.com/ccmx200)：项目优化与创新思路支持
+- [@degdag](https://github.com/degdag)
 
-- [@map220v](https://github.com/map220v/ubuntu-xiaomi-nabu)：上游项目参考
+- [@dabao1955](https://github.com/dabao1955)
 
-- [@Pc1598](https://github.com/Pc1598)：sm8150-mainline-raphael 设备内核维护
+- [@qaz6750](https://github.com/qaz6750)
+
+- [@GavinLiuOnline](https://github.com/GavinLiuOnline)
+
+- [@umeiko](https://github.com/umeiko)
+
+- [@yuweiyuan8](https://github.com/yuweiyuan8)
+
+- [@璀璨梦星](https://github.com/ccmx200)
+
+- [@map220v](https://github.com/map220v)
+
+- [@Pc1598](https://github.com/Pc1598)
 
 - [Aospa\-raphael\-unofficial/linux](https://github.com/Aospa-raphael-unofficial/linux)、[sm8150\-mainline/linux](https://gitlab.postmarketos.org/soc/qualcomm-sm8150/linux)：内核源码支持
 
